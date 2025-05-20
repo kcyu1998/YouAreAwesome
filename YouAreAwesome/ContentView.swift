@@ -14,10 +14,10 @@ struct ContentView: View {
             Image(systemName: "swift")
                 .resizable()
                 .scaledToFit()
-                .foregroundStyle(.red)
-            Text("You Are Awesome!")
+                .foregroundStyle(.orange)
+            Text("I am an app deceloper!")
                 .font(.largeTitle)
-                .fontWeight(/*@START_MENU_TOKEN@*/.bold/*@END_MENU_TOKEN@*/)
+                .fontWeight(/*@START_MENU_TOKEN@*/.heavy/*@END_MENU_TOKEN@*/)
                 .foregroundColor(Color.purple)
         }
         .padding()
