@@ -29,12 +29,14 @@ struct ContentView: View {
             Spacer()
             
             Button("Press Me!") {
-                if message == "You are awesome!" {
-                    message = "You are great!"
+                let msg1 = "你很好！"
+                let msg2 = "你太好了！！"
+                if message == msg1 {
+                    message = msg2
                     shape = "hand.thumbsup"
                 }
                 else{
-                    message = "You are awesome!"
+                    message = msg1
                     shape = "sun.max.fill"}
             }
             .buttonStyle(.borderedProminent)
