@@ -9,35 +9,36 @@ import SwiftUI
 
 struct ContentView: View {
     @State private var message = ""
-    @State private var shape = ""
+    @State private var image = ""
+    var message0 = ""
     var body: some View {
         
         
         
         VStack {
             Spacer()
-            Image(systemName: shape)
+            Image(image)
                 .resizable()
                 .scaledToFit()
-                .foregroundStyle(.orange)
+                .clipShape(RoundedRectangle(cornerRadius: 30))
             
             
             Text(message)
                 .font(.largeTitle)
                 .fontWeight(/*@START_MENU_TOKEN@*/.heavy/*@END_MENU_TOKEN@*/)
-                .foregroundColor(Color.purple)
+                .foregroundColor(Color.red)
             Spacer()
             
             Button("Press Me!") {
-                let msg1 = "你很好！"
-                let msg2 = "你太好了！！"
-                if message == msg1 {
-                    message = msg2
-                    shape = "hand.thumbsup"
-                }
-                else{
-                    message = msg1
-                    shape = "sun.max.fill"}
+                
+                let message1 = "You Are Awesome!"
+                let message2 = "You Are Great!"
+                let image1 = "image0"
+                let image2 = "image1"
+               
+                message = ( message == message1 ? message2 : message1)
+                image = ( image == image1 ? image2 : image1)
+                
             }
             .buttonStyle(.borderedProminent)
             .font(.largeTitle)
