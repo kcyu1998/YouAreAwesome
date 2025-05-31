@@ -21,9 +21,6 @@ struct ContentView: View {
     
     var messages : [String] = ["Your are awesome!", "When the Genius Bar Needs Help, They Call You!","You are great!", "You are amazing!", "You are incredible!", "You are fantastic!", "You Make Me Smile", ]
     var body: some View {
-        
-        
-        
         VStack {
             Text(message)
                 .font(.largeTitle)
@@ -41,44 +38,27 @@ struct ContentView: View {
             Spacer()
             
             Button("Show Message!") {
-                var messageNum : Int
+//                var messageNum : Int
+//                
+//                repeat {
+//                    messageNum = Int.random(in: 0...messages.count-1)
+// } while messageNum == lastMessageNum
                 
-                repeat {
-                    messageNum = Int.random(in: 0...messages.count-1)
-                } while messageNum == lastMessageNum
+                lastMessageNum = noRepeat(numberOfValue: messages.count-1, lastCheckNum: lastMessageNum)
+                message =  messages[lastMessageNum]
                 
-                message =  messages[messageNum]
-                lastMessageNum = messageNum
                 
-                var imageNum : Int
-                repeat {
-                    
-                        imageNum = Int.random(in: 0...numberOfImages-1)
-                    
-                } while imageNum == lastImageNum
-    
-                imageName = "image\(imageNum)"
-                lastImageNum = imageNum
+//                var imageNum : Int
+//                repeat {
+//                        imageNum = Int.random(in: 0...numberOfImages-1)
+//                    
+//                } while imageNum == lastImageNum
+                lastImageNum = noRepeat(numberOfValue: numberOfImages-1, lastCheckNum: lastImageNum)
+                imageName = "image\(lastImageNum)"
                 
-                var soundNum : Int
-                repeat{
-                    soundNum = Int.random(in: 0...numberOfSounds)
-                } while soundNum == lastSoundNum
-                
-                soundName = "sound\(soundNum)"
-                lastSoundNum = soundNum
-               
-                guard let soundFile = NSDataAsset(name: soundName) else {
-                    print("😡Could not read file named \(soundName)")
-                    return
-                }
-                
-                do {
-                    audioPlayer = try AVAudioPlayer(data: soundFile.data)
-                    audioPlayer.play()
-                } catch {
-                    print("😡ERROR: \(error.localizedDescription) creating audioPlayer")
-                }
+                lastSoundNum = noRepeat(numberOfValue: numberOfSounds-1, lastCheckNum: lastSoundNum)
+                soundName = "sound\(lastSoundNum)"
+                playSound(sound: soundName)
                 
             }
             .buttonStyle(.borderedProminent)
@@ -89,6 +69,40 @@ struct ContentView: View {
         .padding()
         
     }
+    
+    func playSound(sound: String) {
+//        var soundNum : Int
+//        repeat{
+//            soundNum = Int.random(in: 0...numberOfSounds-1)
+//        } while soundNum == lastSoundNum
+        
+        
+        
+       
+        guard let soundFile = NSDataAsset(name: sound) else {
+            print("😡Could not read file named \(sound)")
+            return
+        }
+        
+        do {
+            audioPlayer = try AVAudioPlayer(data: soundFile.data)
+            audioPlayer.play()
+        } catch {
+            print("😡ERROR: \(error.localizedDescription) creating audioPlayer")
+        }
+    }
+    
+    func noRepeat(numberOfValue: Int, lastCheckNum: Int) -> Int {
+        
+        var checkNum : Int
+        repeat{
+            checkNum = Int.random(in: 0...numberOfValue)
+        } while checkNum == lastCheckNum
+        
+        return checkNum
+    }
+        
+        
 }
 
 #Preview {
