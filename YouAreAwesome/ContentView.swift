@@ -12,6 +12,7 @@ struct ContentView: View {
     @State private var message = ""
     @State private var imageName = ""
     @State private var soundName = ""
+    @State private var soundIsOn = true
     @State private var lastImageNum = -1
     @State private var lastMessageNum = -1
     @State private var lastSoundNum = -1
@@ -37,34 +38,50 @@ struct ContentView: View {
                 .animation(.linear,value: imageName)
             Spacer()
             
-            Button("Show Message!") {
-//                var messageNum : Int
-//                
-//                repeat {
-//                    messageNum = Int.random(in: 0...messages.count-1)
-// } while messageNum == lastMessageNum
-                
-                lastMessageNum = noRepeat(numberOfValue: messages.count-1, lastCheckNum: lastMessageNum)
-                message =  messages[lastMessageNum]
-                
-                
-//                var imageNum : Int
-//                repeat {
-//                        imageNum = Int.random(in: 0...numberOfImages-1)
-//                    
-//                } while imageNum == lastImageNum
-                lastImageNum = noRepeat(numberOfValue: numberOfImages-1, lastCheckNum: lastImageNum)
-                imageName = "image\(lastImageNum)"
-                
-                lastSoundNum = noRepeat(numberOfValue: numberOfSounds-1, lastCheckNum: lastSoundNum)
-                soundName = "sound\(lastSoundNum)"
-                playSound(sound: soundName)
-                
+            HStack {
+                Text("Sound On")
+                Toggle("", isOn: $soundIsOn)
+                    .labelsHidden()
+                    .onChange(of: soundIsOn) {
+                        if audioPlayer != nil && audioPlayer.isPlaying {
+                            audioPlayer.stop()
+                        }
+                    }
+                Spacer()
+                Button("Show Message!") {
+                    //                var messageNum : Int
+                    //                
+                    //                repeat {
+                    //                    messageNum = Int.random(in: 0...messages.count-1)
+                    // } while messageNum == lastMessageNum
+                    
+                    lastMessageNum = noRepeat(numberOfValue: messages.count-1, lastCheckNum: lastMessageNum)
+                    message =  messages[lastMessageNum]
+                    
+                    
+                    //                var imageNum : Int
+                    //                repeat {
+                    //                        imageNum = Int.random(in: 0...numberOfImages-1)
+                    //                    
+                    //                } while imageNum == lastImageNum
+                    lastImageNum = noRepeat(numberOfValue: numberOfImages-1, lastCheckNum: lastImageNum)
+                    imageName = "image\(lastImageNum)"
+                    
+                    
+                    if soundIsOn  {
+                        
+                        lastSoundNum = noRepeat(numberOfValue: numberOfSounds-1, lastCheckNum: lastSoundNum)
+                        soundName = "sound\(lastSoundNum)"
+                        
+                        playSound(sound: soundName)                    }
+                    
+                    
+                }
+                .buttonStyle(.borderedProminent)
+                .font(.title)
+                .fontWeight(.ultraLight)
+                .cornerRadius(15)
             }
-            .buttonStyle(.borderedProminent)
-            .font(.title)
-            .fontWeight(.ultraLight)
-            .cornerRadius(15)
         }
         .padding()
         
@@ -76,8 +93,9 @@ struct ContentView: View {
 //            soundNum = Int.random(in: 0...numberOfSounds-1)
 //        } while soundNum == lastSoundNum
         
-        
-        
+        if audioPlayer != nil && audioPlayer.isPlaying {
+            audioPlayer.stop()
+        }
        
         guard let soundFile = NSDataAsset(name: sound) else {
             print("😡Could not read file named \(sound)")
